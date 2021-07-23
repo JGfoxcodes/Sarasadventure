@@ -6,6 +6,12 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile3`, function (sprite, l
 statusbars.onZero(StatusBarKind.Health, function (status) {
     game.over(false)
 })
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairEast, function (sprite, location) {
+    tiles.setTilemap(tilemap`level3`)
+    Skeleton.destroy()
+    tiles.placeOnRandomTile(Sara, assets.tile`myTile8`)
+    statusbar.max = 30
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     info.changeScoreBy(1)
     otherSprite.destroy()
@@ -16,81 +22,17 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 })
 let coin: Sprite = null
 let statusbar: StatusBarSprite = null
+let Sara: Sprite = null
+let Skeleton: Sprite = null
 game.setDialogTextColor(5)
-game.setDialogFrame(img`
-    ..................................................................
-    ............fff........fff.............fff..............ffff......
-    ...........fddbf......fbdbf...........fbdbf............fbddf......
-    ...........fddbbf.....fdddffff........fdddffff...fff..ffddbff.....
-    ...........fddddffffffbdddbddbffffffffbdddbddbffffddffddddddf.....
-    ...fff....fdddddfddddddddbbddddddddddddddbbddddddfdddddbccddf.....
-    .fffddf..fddffffddddddddddbbddddddddddddddbbdddddffbddbbddff......
-    .fdbddfffddfffdddfffffbdddbddbffffffffbdddbddbfffefddccbddf.......
-    .fdddcddddffeffffeeeeefbdbfddfeeeeeeeefbdbfddfeeeefffcddddf.......
-    .fbddcddddfeeeeeeeeeeeefffffffeeeeeeeeefffffffeeeeeeefdddddf......
-    ..ffdbbbddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefffffddf.....
-    ...fddbcddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffddfff..
-    ....fddccffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffddddf.
-    ....fdddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefffddddf.
-    ...fddbdfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefdfddbbf.
-    ...fddfffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefdfddbf..
-    ...ffffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddfff...
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ...fbddbffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ...fdddddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ...fddbddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefbddbff..
-    ..ffbbbbffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefbdddddbf.
-    .fbddbddbfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefdddddddf.
-    .fdddddddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefbddbddbf.
-    .fbdddddbfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffbbbbff..
-    ..ffbddbfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddbddf...
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefdddddf...
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffbddbf...
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ...fbddbffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ...fdddddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ...fddbddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefbddbff..
-    ..ffbbbbffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefbdddddbf.
-    .fbddbddbfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefdddddddf.
-    .fdddddddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefbddbddbf.
-    .fbdddddbfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffbbbbff..
-    ..ffbddbfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddbddf...
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefdddddf...
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffbddbf...
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ....fddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddf....
-    ...fffddfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffff...
-    ..fbddfdfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefffddf...
-    .fbbddfdfeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefdbddf...
-    .fddddfffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefdddf....
-    .fddddffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffccddf....
-    ..fffddffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddcbddf...
-    .....fddfffffeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeefddbbbdff..
-    ......fdddddfeeeeeeefffffffeeeeeeeeefffffffeeeeeeeeeeeefddddcddbf.
-    .......fddddcfffeeeefddfbdbfeeeeeeeefddfbdbfeeeeeffffeffddddcdddf.
-    .......fddbccddfefffbddbdddbffffffffbddbdddbfffffdddfffddfffddbdf.
-    ......ffddbbddbffdddddbbddddddddddddddbbddddddddddffffddf..fddfff.
-    .....fddccbdddddfddddddbbddddddddddddddbbddddddddfdddddf....fff...
-    .....fddddddffddffffbddbdddbffffffffbddbdddbffffffddddf...........
-    .....ffbddff..fff...ffffdddf........ffffdddf.....fbbddf...........
-    ......fddbf............fbdbf...........fbdbf......fbddf...........
-    ......ffff..............fff.............fff........fff............
-    ..................................................................
-    `)
+game.setDialogFrame(assets.tile`myTile`)
 game.showLongText("Sara's adventure", DialogLayout.Center)
 tiles.setTilemap(tilemap`level1`)
 scene.cameraShake(4, 500)
 pause(500)
 game.showLongText("Oh No! looks like you got trapped in this abandoned temple! Or at least you think its abandoned....", DialogLayout.Top)
-let Skeleton = sprites.create(img`
+game.showLongText("Gather these ancient coins and make your way to the dorway. Looks like theres a chest in the corner...", DialogLayout.Bottom)
+Skeleton = sprites.create(img`
     . . . . 1 1 1 1 1 1 1 . . . . . 
     . . . . 1 1 1 1 1 1 1 . . . . . 
     . . . . 1 1 f 1 f 1 1 . . . . . 
@@ -110,8 +52,9 @@ let Skeleton = sprites.create(img`
     `, SpriteKind.Enemy)
 tiles.placeOnRandomTile(Skeleton, assets.tile`myTile4`)
 scene.cameraFollowSprite(Skeleton)
-game.showLongText("This is a skeleton. They hurt you. Avoid them or face the consequences.", DialogLayout.Top)
-let Sara = sprites.create(img`
+pause(500)
+game.showLongText("This is a skeleton. They spawn on these red spawners while you spawn on green. They hurt you. Avoid them or face the consequences.", DialogLayout.Top)
+Sara = sprites.create(img`
     . . . . . 2 2 2 2 2 2 2 . . . . 
     . . . . 2 2 2 2 2 d d 2 2 . . . 
     . . . . 2 d d d 2 d d d 2 2 . . 
@@ -137,6 +80,7 @@ controller.moveSprite(Sara)
 info.setScore(0)
 Skeleton.follow(Sara, 50)
 statusbar = statusbars.create(20, 4, StatusBarKind.Health)
+statusbar.max = 30
 statusbar.attachToSprite(Sara)
 for (let index = 0; index <= 4; index++) {
     coin = sprites.create(img`
@@ -150,55 +94,7 @@ for (let index = 0; index <= 4; index++) {
         . . f f f f . . 
         `, SpriteKind.Food)
     tiles.placeOnRandomTile(coin, assets.tile`myTile0`)
-}
-forever(function () {
-    animation.runImageAnimation(
-    Sara,
-    [img`
-        . 2 2 2 2 2 2 2 . . . . . . . . 
-        2 2 2 2 2 d d 2 2 . . . . . . . 
-        2 d d d 2 d d d 2 2 . . . . . . 
-        2 d 1 d d 1 d d 2 2 . . . . . . 
-        2 d 8 d d 8 d d 2 2 . . . . . . 
-        2 d 1 d d 1 d d 2 2 2 . . . . . 
-        . d d d d d d d 2 2 2 . . . . . 
-        . . d d d d d . 2 2 2 . . . . . 
-        . . . d d d . . . 2 2 . . . . . 
-        . 6 6 6 d 6 6 6 . . 2 . . . . . 
-        . 6 6 6 6 6 6 6 . . . . . . . . 
-        . 6 6 6 6 6 6 6 . . . . . . . . 
-        . 6 6 6 6 6 6 6 . . . . . . . . 
-        . d 6 6 6 6 6 d . . . . . . . . 
-        . . 8 8 8 8 8 . . . . . . . . . 
-        . . 8 8 . 8 8 . . . . . . . . . 
-        . . f f . f f . . . . . . . . . 
-        . f f f . f f f . . . . . . . . 
-        `,img`
-        . 2 2 2 2 2 2 2 . . . . . . . . 
-        2 2 2 2 2 d d 2 2 . . . . . . . 
-        2 d d d 2 d d d 2 2 . . . . . . 
-        2 d 1 d d 1 d d 2 2 . . . . . . 
-        2 d 8 d d 8 d d 2 2 . . . . . . 
-        2 d 1 d d 1 d d 2 2 2 . . . . . 
-        . d d d d d d d 2 2 2 . . . . . 
-        . . d d d d d . 2 2 2 . . . . . 
-        . . . d d d . . . 2 2 . . . . . 
-        . 6 6 6 d 6 6 6 . . 2 . . . . . 
-        . 6 6 6 6 6 6 6 . . . . . . . . 
-        . d 6 6 6 6 6 d . . . . . . . . 
-        . . 8 8 8 8 8 . . . . . . . . . 
-        . . 8 8 . 8 8 . . . . . . . . . 
-        . . f f . f f . . . . . . . . . 
-        . f f f . f f f . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `],
-    200,
-    true
-    )
-})
-forever(function () {
-    animation.runImageAnimation(
+    characterAnimations.loopFrames(
     coin,
     [img`
         . . b b b b . . 
@@ -255,7 +151,94 @@ forever(function () {
         . . f d d d f . 
         . . . f f f . . 
         `],
-    200,
-    true
+    100,
+    characterAnimations.rule(Predicate.NotMoving)
     )
+}
+forever(function () {
+    characterAnimations.loopFrames(
+    Sara,
+    [img`
+        . 2 2 2 2 2 2 2 . . . . . . . . 
+        2 2 2 2 2 d d 2 2 . . . . . . . 
+        2 d d d 2 d d d 2 2 . . . . . . 
+        2 d 1 d d 1 d d 2 2 . . . . . . 
+        2 d 8 d d 8 d d 2 2 . . . . . . 
+        2 d 1 d d 1 d d 2 2 2 . . . . . 
+        . d d d d d d d 2 2 2 . . . . . 
+        . . d d d d d . 2 2 2 . . . . . 
+        . . . d d d . . . 2 2 . . . . . 
+        . 6 6 6 d 6 6 6 . . 2 . . . . . 
+        . 6 6 6 6 6 6 6 . . . . . . . . 
+        . 6 6 6 6 6 6 6 . . . . . . . . 
+        . 6 6 6 6 6 6 6 . . . . . . . . 
+        . d 6 6 6 6 6 6 . . . . . . . . 
+        . . 8 8 8 8 8 d . . . . . . . . 
+        . . 8 8 . 8 8 . . . . . . . . . 
+        . . f f . f f . . . . . . . . . 
+        . f f f . f f f . . . . . . . . 
+        `,img`
+        . 2 2 2 2 2 2 2 . . . . . . . . 
+        2 2 2 2 2 d d 2 2 . . . . . . . 
+        2 d d d 2 d d d 2 2 . . . . . . 
+        2 d 1 d d 1 d d 2 2 . . . . . . 
+        2 d 8 d d 8 d d 2 2 . . . . . . 
+        2 d 1 d d 1 d d 2 2 2 . . . . . 
+        . d d d d d d d 2 2 2 . . . . . 
+        . . d d d d d . 2 2 2 . . . . . 
+        . . . d d d . . . 2 2 . . . . . 
+        . 6 6 6 d 6 6 6 . . 2 . . . . . 
+        . 6 6 6 6 6 6 6 . . . . . . . . 
+        . d 6 6 6 6 6 d . . . . . . . . 
+        . . 8 8 8 8 8 . . . . . . . . . 
+        . . 8 8 . 8 8 . . . . . . . . . 
+        . . f f . f f . . . . . . . . . 
+        . f f f . f f f . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `,img`
+        . 2 2 2 2 2 2 2 . . . . . . . . 
+        2 2 2 2 2 d d 2 2 . . . . . . . 
+        2 d d d 2 d d d 2 2 . . . . . . 
+        2 d 1 d d 1 d d 2 2 . . . . . . 
+        2 d 8 d d 8 d d 2 2 . . . . . . 
+        2 d 1 d d 1 d d 2 2 2 . . . . . 
+        . d d d d d d d 2 2 2 . . . . . 
+        . . d d d d d . 2 2 2 . . . . . 
+        . . . d d d . . . 2 2 . . . . . 
+        . 6 6 6 d 6 6 6 . . 2 . . . . . 
+        . 6 6 6 6 6 6 6 . . . . . . . . 
+        . 6 6 6 6 6 6 6 . . . . . . . . 
+        . 6 6 6 6 6 6 6 . . . . . . . . 
+        . 6 6 6 6 6 6 d . . . . . . . . 
+        . d 8 8 8 8 8 . . . . . . . . . 
+        . . 8 8 . 8 8 . . . . . . . . . 
+        . . f f . f f . . . . . . . . . 
+        . f f f . f f f . . . . . . . . 
+        `,img`
+        . 2 2 2 2 2 2 2 . . . . . . . . 
+        2 2 2 2 2 d d 2 2 . . . . . . . 
+        2 d d d 2 d d d 2 2 . . . . . . 
+        2 d 1 d d 1 d d 2 2 . . . . . . 
+        2 d 8 d d 8 d d 2 2 . . . . . . 
+        2 d 1 d d 1 d d 2 2 2 . . . . . 
+        . d d d d d d d 2 2 2 . . . . . 
+        . . d d d d d . 2 2 2 . . . . . 
+        . . . d d d . . . 2 2 . . . . . 
+        . 6 6 6 d 6 6 6 . . 2 . . . . . 
+        . 6 6 6 6 6 6 6 . . . . . . . . 
+        . d 6 6 6 6 6 d . . . . . . . . 
+        . . 8 8 8 8 8 . . . . . . . . . 
+        . . 8 8 . 8 8 . . . . . . . . . 
+        . . f f . f f . . . . . . . . . 
+        . f f f . f f f . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `],
+    200,
+    characterAnimations.rule(Predicate.Moving)
+    )
+})
+forever(function () {
+	
 })

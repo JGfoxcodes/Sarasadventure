@@ -1,9 +1,12 @@
 {
-    "name": "Untitled",
+    "name": "Sara's adventure",
     "description": "",
     "dependencies": {
         "device": "*",
-        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.1"
+        "pxt-status-bar": "github:jwunderl/pxt-status-bar#v0.4.1",
+        "arcade-character-animations": "github:microsoft/arcade-character-animations#v0.0.2",
+        "tilemaps": "github:microsoft/pxt-tilemaps#v1.11.0",
+        "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.1.0"
     },
     "files": [
         "main.blocks",
