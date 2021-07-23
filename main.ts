@@ -155,6 +155,8 @@ for (let index = 0; index <= 4; index++) {
     characterAnimations.rule(Predicate.NotMoving)
     )
 }
+let myMinimap = minimap.minimap(MinimapScale.Original, 2, 15)
+minimap.includeSprite(myMinimap, Sara)
 forever(function () {
     characterAnimations.loopFrames(
     Sara,
