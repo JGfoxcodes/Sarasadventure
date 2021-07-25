@@ -10,7 +10,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairEast, function (spri
     tiles.setTilemap(tilemap`level3`)
     Skeleton.destroy()
     tiles.placeOnRandomTile(Sara, assets.tile`myTile8`)
-    statusbar.max = 30
+    statusbar.value = 30
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     info.changeScoreBy(1)
@@ -33,27 +33,27 @@ pause(500)
 game.showLongText("Oh No! looks like you got trapped in this abandoned temple! Or at least you think its abandoned....", DialogLayout.Top)
 game.showLongText("Gather these ancient coins and make your way to the dorway. Looks like theres a chest in the corner...", DialogLayout.Bottom)
 Skeleton = sprites.create(img`
-    . . . . 1 1 1 1 1 1 1 . . . . . 
-    . . . . 1 1 1 1 1 1 1 . . . . . 
-    . . . . 1 1 f 1 f 1 1 . . . . . 
-    . . . . 1 1 f 1 f 1 1 . . . . . 
-    . . . . 1 1 1 1 1 1 1 . . . . . 
-    . . . . 1 1 1 1 1 1 1 . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
     . . . . . . . . . . . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . 1 1 1 1 1 1 1 . . . . . 
-    . . . . 1 . 1 1 1 . 1 . . . . . 
-    . . . . 1 . 1 1 1 . 1 . . . . . 
-    . . . . . . 1 1 1 . . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . . 1 1 . 1 1 . . . . . . 
-    . . . . . 1 1 . 1 1 . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . f f f f f f f . . . . . 
+    . . f f 7 7 7 7 7 7 7 f f . . . 
+    . f 7 7 7 7 7 7 7 7 7 7 7 f . . 
+    . f 7 7 f f f 7 f f f 7 7 f . . 
+    f 7 7 7 7 f 1 7 f 1 7 7 7 7 f . 
+    f 7 7 7 7 f f 7 f f 7 7 7 7 f . 
+    f 7 7 7 7 7 7 7 7 7 7 7 7 7 f . 
+    f 7 7 7 7 f f f f f 7 7 7 7 f . 
+    f 7 7 7 7 7 7 2 2 7 7 7 7 7 f . 
+    . f f f f f f f f f f f f f . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
     `, SpriteKind.Enemy)
 tiles.placeOnRandomTile(Skeleton, assets.tile`myTile4`)
 scene.cameraFollowSprite(Skeleton)
 pause(500)
-game.showLongText("This is a skeleton. They spawn on these red spawners while you spawn on green. They hurt you. Avoid them or face the consequences.", DialogLayout.Top)
+game.showLongText("This is a slime thing. They spawn on these red spawners while you spawn on green. They hurt you. Avoid them or face the consequences.", DialogLayout.Top)
 Sara = sprites.create(img`
     . . . . . 2 2 2 2 2 2 2 . . . . 
     . . . . 2 2 2 2 2 d d 2 2 . . . 
