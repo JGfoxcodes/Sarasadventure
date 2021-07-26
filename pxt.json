@@ -7,7 +7,8 @@
         "arcade-character-animations": "github:microsoft/arcade-character-animations#v0.0.2",
         "tilemaps": "github:microsoft/pxt-tilemaps#v1.11.0",
         "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.1.0",
-        "arcade-minimap": "github:microsoft/arcade-minimap#v0.6.1"
+        "arcade-minimap": "github:microsoft/arcade-minimap#v0.6.1",
+        "mouse": "*"
     },
     "files": [
         "main.blocks",
